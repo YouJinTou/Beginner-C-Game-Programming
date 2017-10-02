@@ -182,16 +182,16 @@ bool Game::isCollision(int x1, int y1, int x2, int y2, int length1, int length2)
 
 void Game::correctVelocityAfterScreenCollision(
 	int x, int y, int length, int maxX, int maxY, int& vx, int& vy) {
-	if (x + length + length / 2 >= maxX) {
+	if (x + length + length / 2 >= maxX - 1) {
 		vx = -1;
 	}
-	else if (x - length < 0) {
+	else if (x - length < 1) {
 		vx = 1;
 	}
-	else if (y + length + length / 2 >= maxY) {
+	else if (y + length + length / 2 >= maxY - 1) {
 		vy = -1;
 	}
-	else if (y - length < 0) {
+	else if (y - length < 1) {
 		vy = 1;
 	}
 }
