@@ -1,16 +1,18 @@
 #include "Apple.h"
 
-Apple::Apple(Location loc)
+Apple::Apple(Location loc) :
+	loc(loc) {}
+
+void Apple::Update(Location loc)
 {
+	if (isEaten) {
+		Spawn(loc);
+	}
 }
 
-void Apple::Spawn()
+void Apple::Spawn(Location loc)
 {
-}
-
-bool Apple::IsEaten()
-{
-	return false;
+	this->loc = loc;
 }
 
 Location Apple::GetLoc()

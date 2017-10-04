@@ -1,5 +1,5 @@
-/****************************************************************************************** 
- *	Chili DirectX Framework Version 16.07.20											  *	
+/******************************************************************************************
+ *	Chili DirectX Framework Version 16.07.20											  *
  *	Game.cpp																			  *
  *	Copyright 2016 PlanetChili.net <http://www.planetchili.net>							  *
  *																						  *
@@ -18,20 +18,22 @@
  *	You should have received a copy of the GNU General Public License					  *
  *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
  ******************************************************************************************/
+#include <string>
+
 #include "MainWindow.h"
 #include "Game.h"
 
-Game::Game( MainWindow& wnd )
+Game::Game(MainWindow& wnd)
 	:
-	wnd( wnd ),
-	gfx( wnd ),
+	wnd(wnd),
+	gfx(wnd),
 	board(Board(gfx))
 {
 }
 
 void Game::Go()
 {
-	gfx.BeginFrame();	
+	gfx.BeginFrame();
 	UpdateModel();
 	ComposeFrame();
 	gfx.EndFrame();
@@ -39,7 +41,13 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	board.Update();
+	std::string command = wnd.kbd.KeyIsPressed(VK_UP) ? "up" :
+		wnd.kbd.KeyIsPressed(VK_DOWN) ? "down" :
+		wnd.kbd.KeyIsPressed(VK_LEFT) ? "left" :
+		wnd.kbd.KeyIsPressed(VK_RIGHT) ? "right" :
+		"continue";
+
+	board.Update(command);
 }
 
 void Game::ComposeFrame()

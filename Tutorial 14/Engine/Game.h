@@ -20,8 +20,6 @@
  ******************************************************************************************/
 #pragma once
 
-#include <random>
-
 #include "Keyboard.h"
 #include "Mouse.h"
 #include "Graphics.h"
@@ -40,8 +38,5 @@ private:
 private:
 	MainWindow& wnd;
 	Graphics gfx;
-	/*std::random_device rd;
-	std::mt19937 rand;
-	std::uniform_int_distribution<int> uid;*/
 	Board board;
 };
