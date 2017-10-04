@@ -16,19 +16,15 @@ public:
 	void Update(const std::string& command);
 	void Draw();
 private:
-	static constexpr int SquaresX = 100;
-	static constexpr int SquaresY = 60;
 	const std::string StartCommand = "up";
 	Graphics& gfx;
 	std::mt19937 rand;
 	std::uniform_int_distribution<int> xDist;
 	std::uniform_int_distribution<int> yDist;
-	Square squares[SquaresX * SquaresY];
 	Snake snake;
 	Apple apple;
 	std::string command;
 
-	void InitSquares();
 	void SetCommand(const std::string& command);
 	bool AreColliding(
 		Location loc1, 

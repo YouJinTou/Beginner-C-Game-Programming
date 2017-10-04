@@ -4,7 +4,7 @@
 
 #include "Location.h"
 
-struct SnakePart {
+struct SnakePart {	
 	SnakePart* next;
 	Location loc;
 	std::string dir;

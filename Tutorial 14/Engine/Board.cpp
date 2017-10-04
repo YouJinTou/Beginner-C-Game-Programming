@@ -3,26 +3,33 @@
 Board::Board(Graphics & gfx) :
 	gfx(gfx),
 	rand(std::random_device()()),
-	xDist(0, gfx.ScreenWidth - 1),
-	yDist(0, gfx.ScreenHeight - 1),
+	xDist(0, gfx.ScreenWidth - 1 - Square::Width),
+	yDist(0, gfx.ScreenHeight - 1 - Square::Height),
+	snake(gfx.ScreenWidth - 1, gfx.ScreenHeight - 1),
 	apple({ xDist(rand), yDist(rand) }) {
-	InitSquares();
 }
-
 
 void Board::Update(const std::string& command)
 {
+	bool isGameOver = snake.HasBittenTail();
+
+	if (isGameOver) {
+		return;
+	}
+
+	SetCommand(command);
+
 	bool areColliding = AreColliding(
 		snake.Get()[0].loc, apple.GetLoc(), Square::Width,
 		Square::Height, Square::Width, Square::Height);
 	apple.isEaten = areColliding;
 	snake.shouldGrow = areColliding;
 
-	SetCommand(command);
 	snake.Update(this->command);
 
 	if (apple.isEaten) {
 		apple.Update(Location{ xDist(rand), yDist(rand) });
+		snake.IncreaseSpeed();
 	}
 }
 
@@ -42,19 +49,6 @@ void Board::Draw() {
 
 	gfx.DrawRect(
 		appleLoc.x, appleLoc.y, appleLoc.x + Square::Width, appleLoc.y + Square::Height, Colors::Red);
-}
-
-void Board::InitSquares() {
-	int square = 0;
-
-	for (int r = 0; r < SquaresX; r++)
-	{
-		for (int c = 0; c < SquaresY; c++)
-		{
-			squares[square] = Square({ r, c }, Colors::Black);
-			square++;
-		}
-	}
 }
 
 void Board::SetCommand(const std::string& command)

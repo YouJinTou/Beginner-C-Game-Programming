@@ -166,7 +166,6 @@
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Snake.cpp" />
     <ClCompile Include="SpriteCodex.cpp" />
-    <ClCompile Include="Square.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="FramebufferPS.hlsl">
