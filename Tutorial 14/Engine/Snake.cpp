@@ -25,7 +25,7 @@ void Snake::Update(std::string command)
 	}
 
 	UpdateHead(command);
-	UpdateBody();	
+	UpdateBody();
 }
 
 void Snake::Grow()
@@ -38,7 +38,6 @@ void Snake::Grow()
 	}
 
 	SnakePart currentTail = newSnake[size - 1];
-	SnakePart* ptrCurrentTail = &newSnake[size - 1];
 	int x = currentTail.loc.x;
 	int y = currentTail.loc.y;
 	Location newTailLoc =
@@ -46,8 +45,13 @@ void Snake::Grow()
 		currentTail.dir == "down" ? Location{ x, y - Square::Height } :
 		currentTail.dir == "left" ? Location{ x + Square::Width, y } :
 		Location{ x - Square::Width, y };
-	SnakePart newTail = { ptrCurrentTail, newTailLoc, currentTail.dir };
+	SnakePart newTail { nullptr, newTailLoc, currentTail.dir };
 	newSnake[size] = newTail;
+
+	for (int i = size; i > 0; i--)
+	{
+		newSnake[i].next = &newSnake[i - 1];
+	}
 
 	//delete[] parts;
 
@@ -61,36 +65,36 @@ void Snake::UpdateHead(std::string command)
 
 	if (command == "up" && !(currentDir == "down" || currentDir == "up")) {
 		currentDir = "up";
-		head.loc.y -= 1;
+		head.loc.y -= velocity;
 		head.dir = "up";
 	}
 	else if (command == "down" && !(currentDir == "up" || currentDir == "down")) {
 		currentDir = "down";
-		head.loc.y += 1;
+		head.loc.y += velocity;
 		head.dir = "down";
 	}
 	else if (command == "left" && !(currentDir == "right" || currentDir == "left")) {
 		currentDir = "left";
-		head.loc.x -= 1;
+		head.loc.x -= velocity;
 		head.dir = "left";
 	}
 	else if (command == "right" && !(currentDir == "left" || currentDir == "right")) {
 		currentDir = "right";
-		head.loc.x += 1;
+		head.loc.x += velocity;
 		head.dir = "right";
 	}
 
 	if (currentDir == "up") {
-		head.loc.y -= 1;
+		head.loc.y -= velocity;
 	}
 	else if (currentDir == "down") {
-		head.loc.y += 1;
+		head.loc.y += velocity;
 	}
 	else if (currentDir == "left") {
-		head.loc.x -= 1;
+		head.loc.x -= velocity;
 	}
 	else if (currentDir == "right") {
-		head.loc.x += 1;
+		head.loc.x += velocity;
 	}
 }
 
@@ -101,19 +105,37 @@ void Snake::UpdateBody()
 	for (size_t p = size - 1; p > headIndex; p--)
 	{
 		SnakePart nextPart = *parts[p].next;
-		std::string nextDir = nextPart.dir;
 		int nextX = nextPart.loc.x;
 		int nextY = nextPart.loc.y;
 		int& currX = parts[p].loc.x;
 		int& currY = parts[p].loc.y;
-		bool goLeft = currX < nextX + Square::Width;
-		bool goRight = currX + Square::Width > nextX;
-		bool goUp = currY > nextY + Square::Height;
-		bool goDown = currY + Square::Height < nextY ;
+		bool goLeft = currX >= nextX + Square::Width;
+		bool goRight = currX + Square::Width <= nextX;
+		bool goUp = currY - Square::Height >= nextY;
+		bool goDown = currY + Square::Height <= nextY;
 
-		currX = goLeft ? --currX :
-			goRight ? ++currX : currX;
-		currY = goUp ? --currY :
-			goDown ? ++currY : currY;
+		if (goDown) {
+			currY += velocity;
+			currX = RecalculateDim(currX, nextX);
+		}
+		else if (goRight) {
+			currX += velocity;
+			currY = RecalculateDim(currY, nextY);
+		}
+		else if (goLeft) {
+			currX -= velocity;
+			currY = RecalculateDim(currY, nextY);
+		}
+		else if (goUp) {
+			currY -= velocity;
+			currX = RecalculateDim(currX, nextX);
+		}
 	}
+}
+
+int Snake::RecalculateDim(int& curr, const int& next)
+{
+	return curr > next ? --curr :
+		curr < next ? ++curr :
+		curr;
 }

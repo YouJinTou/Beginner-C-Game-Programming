@@ -19,10 +19,12 @@ private:
 	static constexpr int StartY = 300;
 	const std::string HeadDefaultDir = "up";
 	int size = 1;
+	int velocity = 2;
 	SnakePart* parts;
 	std::string currentDir;
 
 	void Grow();
 	void UpdateHead(std::string command);
 	void UpdateBody();
+	int RecalculateDim(int& curr, const int& next);
 };

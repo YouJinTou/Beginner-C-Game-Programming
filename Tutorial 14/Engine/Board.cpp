@@ -3,8 +3,8 @@
 Board::Board(Graphics & gfx) :
 	gfx(gfx),
 	rand(std::random_device()()),
-	xDist(0, gfx.ScreenWidth),
-	yDist(0, gfx.ScreenHeight),
+	xDist(0, gfx.ScreenWidth - 1),
+	yDist(0, gfx.ScreenHeight - 1),
 	apple({ xDist(rand), yDist(rand) }) {
 	InitSquares();
 }
