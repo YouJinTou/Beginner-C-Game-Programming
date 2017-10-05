@@ -23,14 +23,14 @@ void Snake::IncreaseSpeed()
 }
 
 bool Snake::HasBittenTail() const {
-	if (size <= 2) {
+	if (size <= 3) {
 		return false;
 	}
 
 	int headX = parts[0].loc.x;
 	int headY = parts[0].loc.y;
 
-	for (int i = 2; i < size; i++)
+	for (int i = 3; i < size; i++)
 	{
 		int partX = parts[i].loc.x;
 		int partY = parts[i].loc.y;
