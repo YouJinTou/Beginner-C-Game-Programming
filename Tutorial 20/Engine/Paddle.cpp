@@ -22,7 +22,15 @@ void Paddle::Update(const std::string& command, const float dt) {
 }
 
 void Paddle::Draw() const {
-	gfx.DrawRect(GetRect(), paddleColor);
+	Rect rect = GetRect();
+
+	gfx.DrawRect(rect, wingsColor);
+	gfx.DrawRect(
+		rect.X() + WingsLength, 
+		rect.Y() + WingsLength, 
+		rect.Width() - WingsLength, 
+		rect.Height() - WingsLength, 
+		paddleColor);
 }
 
 Rect Paddle::GetRect() const {

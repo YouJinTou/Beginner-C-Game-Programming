@@ -52,6 +52,7 @@ Rect Ball::GetRect() const {
 
 void Ball::SetRelativeToPaddle() {
 	justLaunched = false;
+	velocity = { 0, 0 };
 	Vec2 paddleCenter = paddle.Center();
 	topLeft.x = paddleCenter.x - Radius;
 	topLeft.y = paddleCenter.y - paddle.GetHeight() - Radius;

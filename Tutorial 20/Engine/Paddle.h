@@ -22,10 +22,12 @@ public:
 private:
 	static constexpr int Width = 100;
 	static constexpr int Height = 15;
+	static constexpr int WingsLength = 15;
 	static constexpr float Speed = 300.0f;
+	static constexpr Color paddleColor{ Colors::Red };
+	static constexpr Color wingsColor{ Colors::Green };
 	Graphics& gfx;
 	Vec2 topLeft;
-	Color paddleColor{ Colors::Red };
 	int leftBorder;
 	int rightBorder;
 	float startX;
