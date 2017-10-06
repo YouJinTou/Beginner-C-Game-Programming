@@ -39,6 +39,9 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	float mark = ft.Mark();
+
+	board.Update(wnd.kbd, mark);
 }
 
 void Game::ComposeFrame()
