@@ -6,15 +6,18 @@ Paddle::Paddle(Graphics& gfx, int leftBorder, int rightBorder) :
 	rightBorder(rightBorder) {
 	float startX = (gfx.ScreenWidth / 2) - Width / 2;
 	float startY = gfx.ScreenHeight - Height;
-	topLeftPos = Vec2(startX, startY);
+	topLeft = Vec2(startX, startY);
 }
 
 void Paddle::Update(const std::string& command, const float dt) {
 	if (command == "left") {
-		topLeftPos.x = IsCollidingWithLeftWall() ? leftBorder : topLeftPos.x - (dt * Speed);
+		topLeft.x = IsCollidingWithLeftWall() ? leftBorder : topLeft.x - (dt * Speed);
 	}
 	else if (command == "right") {
-		topLeftPos.x = IsCollidingWithRightWall() ? rightBorder - Width : topLeftPos.x + (dt * Speed);
+		topLeft.x = IsCollidingWithRightWall() ? rightBorder - Width : topLeft.x + (dt * Speed);
+	}
+	else if (command == "launch") {
+		ballLaunched = true;
 	}
 }
 
@@ -23,9 +26,31 @@ void Paddle::Draw() const {
 }
 
 Rect Paddle::GetRect() const {
-	Rect rect{ topLeftPos, topLeftPos.x + Width, topLeftPos.y + Height };
+	Rect rect{ topLeft, topLeft.x + Width, topLeft.y + Height };
 
 	return rect;
+}
+
+Vec2 Paddle::Center() const
+{
+	Vec2 center{topLeft.x + Width / 2, topLeft.y + Height / 2};
+
+	return center;
+}
+
+int Paddle::GetWidth() const
+{
+	return Width;
+}
+
+int Paddle::GetHeight() const
+{
+	return Height;
+}
+
+bool Paddle::BallLaunched() const
+{
+	return ballLaunched;
 }
 
 bool Paddle::IsCollidingWithLeftWall() const

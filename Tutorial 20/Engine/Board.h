@@ -5,6 +5,7 @@
 #include "Vec2.h"
 #include "Rect.h"
 #include "Paddle.h"
+#include "Ball.h"
 
 class Board {
 public:
@@ -20,6 +21,7 @@ private:
 	Rect TopWall{ BorderPadding, 0, (float)(gfx.ScreenWidth - BorderPadding), BorderPadding };
 	Rect RightWall{ gfx.ScreenWidth - BorderPadding, 0.0f, (float)gfx.ScreenWidth, (float)gfx.ScreenHeight };
 	Paddle paddle;
+	Ball ball;
 
 	void DrawBorder() const;
 };

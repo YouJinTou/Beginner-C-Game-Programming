@@ -4,6 +4,7 @@
 
 class Rect {
 public:
+	Rect() = default;
 	Rect(float topX, float topY, float width, float height);
 	Rect(const Vec2& topLeft, float width, float height);
 	float X();
