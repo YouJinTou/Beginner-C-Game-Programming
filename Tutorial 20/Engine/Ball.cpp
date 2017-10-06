@@ -79,6 +79,8 @@ void Ball::HandlePaddleCollision() {
 		return;
 	}
 
+	onHitPaddle.Play();
+
 	int paddleWidth = paddle.GetWidth();
 	int paddleX = paddle.Center().x - paddleWidth / 2;
 	int segmentSize = paddleWidth / PaddleXSegments;
@@ -121,6 +123,8 @@ void Ball::HandleBrickCollision() {
 		if (brick.isDestroyed || !ball.IsCollidingWith(brect)) {
 			continue;
 		}
+
+		onHitBrick.Play();
 
 		brick.isDestroyed = true;
 		bool isLeft = ballX <= brect.Width();

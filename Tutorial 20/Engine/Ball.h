@@ -6,6 +6,7 @@
 #include "Paddle.h"
 #include "Rect.h"
 #include "Brick.h"
+#include "Sound.h"
 
 class Ball {
 public:
@@ -31,6 +32,8 @@ private:
 	Vec2 topLeft;
 	Vec2 velocity;
 	bool justLaunched = false;
+	Sound onHitPaddle = Sound(L"Sounds//arkpad.wav");
+	Sound onHitBrick = Sound(L"Sounds//arkbrick.wav");
 
 	Vec2 Center() const;
 	Rect GetRect() const;
