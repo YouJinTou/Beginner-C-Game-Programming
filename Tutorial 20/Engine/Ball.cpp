@@ -65,11 +65,20 @@ void Ball::HandleLaunch() {
 }
 
 void Ball::HandleWallCollision() {
-	if (IsCollidingWithLeftWall() || IsCollidingWithRightWall()) {
+	Rect rect = GetRect();
+	std::vector<Rect> walls = this->walls;
+
+	if (IsCollidingWithLeftWall()) {
+		topLeft.x += walls[0].Width() - rect.X();
+		velocity.x = -velocity.x;
+	}
+	else if (IsCollidingWithRightWall()) {
+		topLeft.x -= rect.Width() - walls[2].X();
 		velocity.x = -velocity.x;
 	}
 
 	if (IsCollidingWithTopWall()) {
+		topLeft.y += walls[1].Height() - rect.Y();
 		velocity.y = -velocity.y;
 	}
 }
@@ -138,6 +147,8 @@ void Ball::HandleBrickCollision() {
 		else if (isLeft || isRight) {
 			velocity.x = -velocity.x;
 		}
+
+		break;
 	}
 }
 
