@@ -47,7 +47,7 @@ void Game::UpdateModel()
 
 	board.Update(wnd.kbd, mark);
 
-	isGameOver = board.isLost;
+	isGameOver = board.IsLost();
 }
 
 void Game::ComposeFrame()

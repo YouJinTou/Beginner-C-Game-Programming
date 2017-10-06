@@ -4,7 +4,7 @@ Board::Board(Graphics & gfx) :
 	gfx(gfx),
 	walls(SetWalls()),
 	paddle(Paddle(gfx, (int)LeftWall.Width(), (int)RightWall.X())),
-	ball(gfx, paddle, walls) {
+	ball(gfx, paddle, walls, bricks) {
 	InitBricks();
 }
 
@@ -18,16 +18,26 @@ void Board::Update(const Keyboard & kb, float dt) {
 	paddle.Update(cmd, dt);
 	ball.Update(dt);
 
-	if (ball.isLost) {
-		isLost = true;
+	if (ball.IsLost()) {
+		lives--;
+
+		if (!IsLost()) {
+			paddle.Reset();
+			ball.SetRelativeToPaddle();
+		}
 	}
 }
 
-void Board::Draw() const {
+void Board::Draw() {
 	DrawBorder();
 	DrawBricks();
+	DrawLives();
 	paddle.Draw();
 	ball.Draw();
+}
+
+bool Board::IsLost() {
+	return lives == 0;
 }
 
 void Board::DrawBorder() const {
@@ -36,15 +46,26 @@ void Board::DrawBorder() const {
 	gfx.DrawRect(RightWall, WallCollor);
 }
 
-void Board::DrawBricks() const {
+void Board::DrawBricks() {
 	int colorCounter = 0;
 
-	for (Rect brick : bricks) {
-		colorCounter = (colorCounter >= MaxColors) ? 0 : colorCounter;
+	for (auto& brick : bricks) {
+		brick.Draw();
+	}
+}
 
-		gfx.DrawRect(brick, brickColors[colorCounter]);
+void Board::DrawLives() const {
+	int x = 15;
+	int y = gfx.ScreenHeight - 20;
+	int width = x + 5;
+	int height = y + 15;
+	int offset = 5;
 
-		colorCounter++;
+	for (size_t i = 0; i < lives; i++)
+	{
+		gfx.DrawRect(x, y, width + x, height, Colors::Gray);
+
+		x += width + offset;
 	}
 }
 
@@ -68,7 +89,7 @@ void Board::InitBricks() {
 	float height = 10;
 	float x = 0.0f;
 	float y = BorderPadding + paddingTop;
-	int brick = 0;
+	int colorCounter = 0;
 
 	for (size_t row = 0; row < BrickRows; row++)
 	{
@@ -77,10 +98,11 @@ void Board::InitBricks() {
 
 		for (size_t col = 0; col < BrickCols; col += 1)
 		{
-			bricks[brick] = Rect({ x, y }, x + width, y + height);
-			brick++;
+			colorCounter = (colorCounter >= MaxColors) ? 0 : colorCounter;
+			bricks.push_back(Brick(gfx, { x, y }, x + width, y + height, brickColors[colorCounter]));
 
 			x += width + marginRight;
+			colorCounter++;
 		}
 	}
 }

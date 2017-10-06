@@ -3,13 +3,11 @@
 Rect::Rect(float topX, float topY, float width, float height) :
 	topLeft({ topX, topY }),
 	width(width),
-	height(height)
-{
+	height(height) {
 }
 
 Rect::Rect(const Vec2 & topLeft, float width, float height) :
-	Rect::Rect(topLeft.x, topLeft.y, width, height)
-{
+	Rect::Rect(topLeft.x, topLeft.y, width, height){
 }
 
 float Rect::X() {
@@ -28,8 +26,7 @@ float Rect::Height() {
 	return height;
 }
 
-bool Rect::IsCollidingWith(const Rect & other) const
-{
+bool Rect::IsCollidingWith(const Rect & other) const{
 	return
 		topLeft.x <= other.width &&
 		topLeft.y <= other.height &&

@@ -18,6 +18,7 @@ public:
 	int GetWidth() const;
 	int GetHeight() const;
 	bool BallLaunched() const;
+	void Reset();
 private:
 	static constexpr int Width = 100;
 	static constexpr int Height = 15;
@@ -27,6 +28,8 @@ private:
 	Color paddleColor{ Colors::Red };
 	int leftBorder;
 	int rightBorder;
+	float startX;
+	float startY;
 	bool ballLaunched = false;
 
 	bool IsCollidingWithLeftWall() const;

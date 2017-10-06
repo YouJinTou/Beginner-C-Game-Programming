@@ -4,8 +4,8 @@ Paddle::Paddle(Graphics& gfx, int leftBorder, int rightBorder) :
 	gfx(gfx), 
 	leftBorder(leftBorder),
 	rightBorder(rightBorder) {
-	float startX = (gfx.ScreenWidth / 2) - Width / 2;
-	float startY = gfx.ScreenHeight - Height;
+	startX = (gfx.ScreenWidth / 2) - Width / 2;
+	startY = gfx.ScreenHeight - Height;
 	topLeft = Vec2(startX, startY);
 }
 
@@ -51,6 +51,11 @@ int Paddle::GetHeight() const
 bool Paddle::BallLaunched() const
 {
 	return ballLaunched;
+}
+
+void Paddle::Reset() {
+	ballLaunched = false;
+	topLeft = Vec2(startX, startY);
 }
 
 bool Paddle::IsCollidingWithLeftWall() const

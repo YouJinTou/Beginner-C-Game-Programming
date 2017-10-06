@@ -3,10 +3,14 @@
 #include "Ball.h"
 #include "SpriteCodex.h"
 
-Ball::Ball(Graphics& gfx, const Paddle& paddle, const std::vector<Rect>& walls) :
+Ball::Ball(Graphics& gfx, 
+	const Paddle& paddle, 
+	const std::vector<Rect>& walls,
+	std::vector<Brick>& bricks) :
 	gfx(gfx),
 	paddle(paddle),
 	walls(walls),
+	bricks(bricks),
 	velocity({ 0.0f, 0.0f }) {
 	assert(walls.size() == 3);
 }
@@ -19,14 +23,13 @@ void Ball::Update(float dt) {
 	}
 
 	if (IsLost()) {
-		isLost = true;
-
 		return;
 	}
 
 	HandleLaunch();
 	HandleWallCollision();
 	HandlePaddleCollision();
+	HandleBrickCollision();
 
 	topLeft += velocity * dt;
 }
@@ -48,6 +51,7 @@ Rect Ball::GetRect() const {
 }
 
 void Ball::SetRelativeToPaddle() {
+	justLaunched = false;
 	Vec2 paddleCenter = paddle.Center();
 	topLeft.x = paddleCenter.x - Radius;
 	topLeft.y = paddleCenter.y - paddle.GetHeight() - Radius;
@@ -104,6 +108,35 @@ void Ball::HandlePaddleCollision() {
 	velocity.y = -velocity.y;
 }
 
+void Ball::HandleBrickCollision() {
+	Rect ball = GetRect();
+	float ballX = ball.X();
+	float ballY = ball.Y();
+	float ballX2 = ball.Width();
+	float ballY2 = ball.Height();
+
+	for (Brick& brick : bricks) {
+		Rect brect = brick.GetRect();
+
+		if (brick.isDestroyed || !ball.IsCollidingWith(brect)) {
+			continue;
+		}
+
+		brick.isDestroyed = true;
+		bool isLeft = ballX <= brect.Width();
+		bool isTop = ballY <= brect.Height();
+		bool isRight = ballX2 >= brect.X();
+		bool isBot = ballY2 >= brect.Y();
+
+		if (isBot || isTop) {
+			velocity.y = -velocity.y;
+		} 
+		else if (isLeft || isRight) {
+			velocity.x = -velocity.x;
+		}
+	}
+}
+
 bool Ball::IsCollidingWithLeftWall() const {
 	return GetRect().IsCollidingWith(walls[0]);
 }
@@ -124,5 +157,5 @@ bool Ball::IsLost() const {
 	Rect rect = GetRect();
 	int y = rect.Y() + (rect.Height() - rect.Y());
 
-	return y >= 600;
+	return y >= gfx.ScreenHeight;
 }

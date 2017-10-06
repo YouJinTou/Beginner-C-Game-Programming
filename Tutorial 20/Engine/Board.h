@@ -8,14 +8,14 @@
 #include "Rect.h"
 #include "Paddle.h"
 #include "Ball.h"
+#include "Brick.h"
 
 class Board {
 public:
 	Board(Graphics& gfx);
 	void Update(const Keyboard& kb, const float dt);
-	void Draw() const;
-
-	bool isLost = false;
+	void Draw();
+	bool IsLost();
 private:
 	Graphics& gfx;
 	static constexpr float BorderPadding = 10.0f;
@@ -29,12 +29,14 @@ private:
 	Rect TopWall{ BorderPadding, 0, (float)(gfx.ScreenWidth - BorderPadding), BorderPadding };
 	Rect RightWall{ gfx.ScreenWidth - BorderPadding, 0.0f, (float)gfx.ScreenWidth, (float)gfx.ScreenHeight };
 	std::vector<Rect> walls;	
-	Rect bricks[BrickRows * BrickCols];
+	std::vector<Brick> bricks;
 	Paddle paddle;
 	Ball ball;
+	int lives = 3;
 
 	void DrawBorder() const;
-	void DrawBricks() const;
+	void DrawBricks();
+	void DrawLives() const;
 	std::vector<Rect> SetWalls();
 	void InitBricks();
 };
