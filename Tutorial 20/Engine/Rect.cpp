@@ -27,3 +27,12 @@ float Rect::Width() {
 float Rect::Height() {
 	return height;
 }
+
+bool Rect::IsCollidingWith(const Rect & other) const
+{
+	return
+		topLeft.x <= other.width &&
+		topLeft.y <= other.height &&
+		width >= other.topLeft.x &&
+		height >= other.topLeft.y;
+}

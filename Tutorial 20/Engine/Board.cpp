@@ -2,13 +2,20 @@
 
 Board::Board(Graphics & gfx) :
 	gfx(gfx),
+	walls(SetWalls()),
 	paddle(Paddle(gfx, (int)LeftWall.Width(), (int)RightWall.X())),
-	ball(gfx, paddle) {
+	ball(gfx, paddle, walls) {	
 }
 
 void Board::Update(const Keyboard & kb, float dt) {
-	paddle.Update(kb.KeyIsPressed(VK_LEFT) ? "left" : kb.KeyIsPressed(VK_RIGHT) ? "right" : "", dt);
-	ball.Update();
+	std::string cmd = 
+		kb.KeyIsPressed(VK_LEFT) ? "left" :
+		kb.KeyIsPressed(VK_RIGHT) ? "right" :
+		kb.KeyIsPressed(VK_SPACE) ? "launch" :
+		"";
+
+	paddle.Update(cmd, dt);
+	ball.Update(dt);
 }
 
 void Board::Draw() const {
@@ -23,3 +30,12 @@ void Board::DrawBorder() const {
 	gfx.DrawRect(RightWall, WallCollor);
 }
 
+std::vector<Rect> Board::SetWalls() {
+	std::vector<Rect> walls;
+
+	walls.push_back(LeftWall);
+	walls.push_back(TopWall);
+	walls.push_back(RightWall);
+
+	return walls;
+}

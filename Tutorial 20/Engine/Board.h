@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "Graphics.h"
 #include "Keyboard.h"
 #include "Vec2.h"
@@ -20,8 +22,10 @@ private:
 	Rect LeftWall{ 0.0f, 0.0f, BorderPadding, (float)gfx.ScreenHeight };
 	Rect TopWall{ BorderPadding, 0, (float)(gfx.ScreenWidth - BorderPadding), BorderPadding };
 	Rect RightWall{ gfx.ScreenWidth - BorderPadding, 0.0f, (float)gfx.ScreenWidth, (float)gfx.ScreenHeight };
+	std::vector<Rect> walls;
 	Paddle paddle;
 	Ball ball;
 
 	void DrawBorder() const;
+	std::vector<Rect> SetWalls();
 };

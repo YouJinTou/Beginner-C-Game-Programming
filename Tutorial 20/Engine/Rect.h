@@ -11,6 +11,7 @@ public:
 	float Y();
 	float Width();
 	float Height();
+	bool IsCollidingWith(const Rect& other) const;
 private:
 	Vec2 topLeft;
 	float width;
