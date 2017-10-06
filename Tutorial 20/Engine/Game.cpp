@@ -39,9 +39,15 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	if (isGameOver) {
+		return;
+	}
+
 	float mark = ft.Mark();
 
 	board.Update(wnd.kbd, mark);
+
+	isGameOver = board.isLost;
 }
 
 void Game::ComposeFrame()

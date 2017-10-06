@@ -18,6 +18,12 @@ void Ball::Update(float dt) {
 		return;
 	}
 
+	if (IsLost()) {
+		isLost = true;
+
+		return;
+	}
+
 	HandleLaunch();
 	HandleWallCollision();
 	HandlePaddleCollision();
@@ -112,4 +118,11 @@ bool Ball::IsCollidingWithRightWall() const {
 
 bool Ball::IsCollidingWithPaddle() const {
 	return GetRect().IsCollidingWith(paddle.GetRect());
+}
+
+bool Ball::IsLost() const {
+	Rect rect = GetRect();
+	int y = rect.Y() + (rect.Height() - rect.Y());
+
+	return y >= 600;
 }

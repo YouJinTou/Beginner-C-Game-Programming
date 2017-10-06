@@ -11,10 +11,11 @@ public:
 	Ball(Graphics& gfx, const Paddle& paddle, const std::vector<Rect>& walls);
 	void Update(float dt);
 	void Draw() const;
+	bool isLost = false;
 private:
 	static constexpr float Radius = 7.0f;
 	static constexpr int PaddleXSegments = 7;
-	const float speed = 200.0f;
+	const float speed = 500.0f;
 	const float PaddleXTouchVelocityValues[PaddleXSegments]
 		{ -2.5f * speed, -2 * speed, -1 * speed, 0, 1 * speed, 2 * speed, 2.5f * speed };
 	const std::vector<Rect>& walls;
@@ -34,5 +35,5 @@ private:
 	bool IsCollidingWithTopWall() const;
 	bool IsCollidingWithRightWall() const;
 	bool IsCollidingWithPaddle() const;
-
+	bool IsLost() const;
 };

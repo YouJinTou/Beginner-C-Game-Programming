@@ -16,6 +16,10 @@ void Board::Update(const Keyboard & kb, float dt) {
 
 	paddle.Update(cmd, dt);
 	ball.Update(dt);
+
+	if (ball.isLost) {
+		isLost = true;
+	}
 }
 
 void Board::Draw() const {

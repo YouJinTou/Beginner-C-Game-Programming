@@ -14,6 +14,8 @@ public:
 	Board(Graphics& gfx);
 	void Update(const Keyboard& kb, const float dt);
 	void Draw() const;
+
+	bool isLost = false;
 private:
 	Graphics& gfx;
 	static constexpr float BorderPadding = 10.0f;

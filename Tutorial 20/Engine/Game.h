@@ -41,4 +41,5 @@ private:
 	Graphics gfx;
 	FrameTimer ft;
 	Board board;
+	bool isGameOver = false;
 };
