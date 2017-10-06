@@ -16,7 +16,7 @@ private:
 	static constexpr int PaddleXSegments = 7;
 	const float speed = 200.0f;
 	const float PaddleXTouchVelocityValues[PaddleXSegments]
-		{ -2.5 * speed, -2 * speed, -1 * speed, 0, 1 * speed, 2 * speed, 2.5 * speed };
+		{ -2.5f * speed, -2 * speed, -1 * speed, 0, 1 * speed, 2 * speed, 2.5f * speed };
 	const std::vector<Rect>& walls;
 	const Paddle& paddle;
 	Graphics& gfx;
