@@ -27,6 +27,7 @@ private:
 		{ -2.5f * speed, -2 * speed, -1 * speed, 0, 1 * speed, 2 * speed, 2.5f * speed };
 	const std::vector<Rect>& walls;
 	const Paddle& paddle;
+	const float paddleReboudFactor = 7.5f;
 	std::vector<Brick>& bricks;
 	Graphics& gfx;
 	Vec2 topLeft;

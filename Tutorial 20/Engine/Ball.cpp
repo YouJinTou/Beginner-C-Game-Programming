@@ -91,32 +91,8 @@ void Ball::HandlePaddleCollision() {
 
 	onHitPaddle.Play();
 
-	int paddleWidth = paddle.GetWidth();
-	int paddleX = paddle.Center().x - paddleWidth / 2;
-	int segmentSize = paddleWidth / PaddleXSegments;
-	int paddleSegments[PaddleXSegments];
-
-	for (size_t segment = 0; segment < PaddleXSegments; segment++)
-	{
-		paddleSegments[segment] = paddleX + segment * segmentSize;
-	}
-
-	int lastValueSegmentIndex = 6;
-	int xValue = lastValueSegmentIndex;
-	Vec2 center = Center();
-
-	for (size_t i = 0; i < PaddleXSegments - 1; i++)
-	{
-		bool isInSector = (paddleSegments[i] <= center.x && center.x < paddleSegments[i + 1]);
-
-		if (isInSector) {
-			xValue = i;
-
-			break;
-		}
-	}
-
-	velocity.x = PaddleXTouchVelocityValues[xValue];
+	float difX = GetRect().X() - paddle.Center().x;
+	velocity.x = difX * paddleReboudFactor;
 	velocity.y = -velocity.y;
 }
 
