@@ -35,11 +35,12 @@ public:
 	void Go();
 private:
 	void ComposeFrame();
-	void UpdateModel();
+	void UpdateModel(float dt);
 private:
 	MainWindow& wnd;
 	Graphics gfx;
 	FrameTimer ft;
+	float granularFrame = 0.0025f;
 	Board board;
 	bool isGameOver = false;
 };

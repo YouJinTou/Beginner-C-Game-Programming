@@ -32,20 +32,28 @@ Game::Game( MainWindow& wnd )
 void Game::Go()
 {
 	gfx.BeginFrame();	
-	UpdateModel();
+
+	float mark = ft.Mark();
+
+	while (mark > 0.0f) {
+		const float dt = std::min(mark, granularFrame);
+
+		UpdateModel(dt);
+
+		mark -= granularFrame;
+	}
+
 	ComposeFrame();
 	gfx.EndFrame();
 }
 
-void Game::UpdateModel()
+void Game::UpdateModel(float dt)
 {
 	if (isGameOver) {
 		return;
 	}
 
-	float mark = ft.Mark();
-
-	board.Update(wnd.kbd, mark);
+	board.Update(wnd.kbd, dt);
 
 	isGameOver = board.IsLost();
 }
