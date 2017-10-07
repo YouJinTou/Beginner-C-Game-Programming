@@ -12,6 +12,7 @@ public:
 	float Width();
 	float Height();
 	bool IsCollidingWith(const Rect& other) const;
+	Vec2 Center();
 private:
 	Vec2 topLeft;
 	float width;

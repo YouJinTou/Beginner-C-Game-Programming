@@ -41,6 +41,7 @@ private:
 	void HandleWallCollision();
 	void HandlePaddleCollision();
 	void HandleBrickCollision();
+	void DoBrickCollision(Brick* brick);
 	bool IsCollidingWithLeftWall() const;
 	bool IsCollidingWithTopWall() const;
 	bool IsCollidingWithRightWall() const;

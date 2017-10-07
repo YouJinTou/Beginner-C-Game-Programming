@@ -3,8 +3,8 @@
 #include "Ball.h"
 #include "SpriteCodex.h"
 
-Ball::Ball(Graphics& gfx, 
-	const Paddle& paddle, 
+Ball::Ball(Graphics& gfx,
+	const Paddle& paddle,
 	const std::vector<Rect>& walls,
 	std::vector<Brick>& bricks) :
 	gfx(gfx),
@@ -18,7 +18,7 @@ Ball::Ball(Graphics& gfx,
 void Ball::Update(float dt) {
 	if (!paddle.BallLaunched()) {
 		SetRelativeToPaddle();
-		
+
 		return;
 	}
 
@@ -122,10 +122,14 @@ void Ball::HandlePaddleCollision() {
 
 void Ball::HandleBrickCollision() {
 	Rect ball = GetRect();
+	Vec2 center = Center();
 	float ballX = ball.X();
 	float ballY = ball.Y();
 	float ballX2 = ball.Width();
 	float ballY2 = ball.Height();
+	float bestDist = 99999.0f;
+	Brick* bestBrick = nullptr;
+	bool collisionExists = false;
 
 	for (Brick& brick : bricks) {
 		Rect brect = brick.GetRect();
@@ -134,23 +138,37 @@ void Ball::HandleBrickCollision() {
 			continue;
 		}
 
-		onHitBrick.Play();
+		collisionExists = true;
+		float dist = (brect.Center() - ball.Center()).GetLengthSq();
 
-		brick.isDestroyed = true;
-		bool isLeft = ballX <= brect.Width();
-		bool isTop = ballY <= brect.Height();
-		bool isRight = ballX2 >= brect.X();
-		bool isBot = ballY2 >= brect.Y();
-
-		if (isBot || isTop) {
-			velocity.y = -velocity.y;
-		} 
-		else if (isLeft || isRight) {
-			velocity.x = -velocity.x;
+		if (dist < bestDist) {
+			bestDist = dist;
+			bestBrick = &brick;
 		}
-
-		break;
 	}
+
+	if (collisionExists) {
+		DoBrickCollision(bestBrick);
+	}
+}
+
+void Ball::DoBrickCollision(Brick* brick) {
+	Rect brect = brick->GetRect();
+	Vec2 center = Center();
+	bool isLeft = center.x <= brect.X();
+	bool isTop = center.y <= brect.Y();
+	bool isRight = center.x >= brect.Width();
+	bool isBot = center.y >= brect.Height();
+	brick->isDestroyed = true;
+
+	if (isBot || isTop) {
+		velocity.y = -velocity.y;
+	}
+	else if (isLeft || isRight) {
+		velocity.x = -velocity.x;
+	}
+
+	onHitBrick.Play();
 }
 
 bool Ball::IsCollidingWithLeftWall() const {

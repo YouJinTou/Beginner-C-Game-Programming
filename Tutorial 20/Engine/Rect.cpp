@@ -33,3 +33,8 @@ bool Rect::IsCollidingWith(const Rect & other) const{
 		width >= other.topLeft.x &&
 		height >= other.topLeft.y;
 }
+
+Vec2 Rect::Center()
+{
+	return Vec2((width - topLeft.x) / 2, (height - topLeft.y) / 2);
+}
