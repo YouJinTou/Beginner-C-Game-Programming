@@ -84,16 +84,16 @@ void Board::InitBricks() {
 	float marginTop = 5;
 	float paddingTop = 30;
 	float width =
-		(gfx.ScreenWidth - 2 * BorderPadding - 10 * marginRight) /
+		(gfx.ScreenWidth - 2 * BorderSize - 2 * BorderPadding - 10 * marginRight) /
 		BrickCols;
 	float height = 10;
 	float x = 0.0f;
-	float y = BorderPadding + paddingTop;
+	float y = BorderSize + paddingTop + BorderPadding;
 	int colorCounter = 0;
 
 	for (size_t row = 0; row < BrickRows; row++)
 	{
-		x = BorderPadding;
+		x = BorderPadding + BorderSize;
 		y += height + marginTop;
 
 		for (size_t col = 0; col < BrickCols; col += 1)
